@@ -1,6 +1,6 @@
 var exec = require("child_process").exec;
 
-function start() {
+function start(response) {
     console.log("Request handler 'start' was called.");
 
     // function sleep(millSeconds) {
@@ -13,17 +13,24 @@ function start() {
     // sleep(10000);
 
     var content = "empty";
-    exec("find /", function (error, stdout, stderr) {
+    exec("ls -lah", function print_message(error, stdout, stderr) {
         content = stdout;
+        response.writeHead(200, {"Content-Type": "text/plain"});
+        response.write(content);
+        response.end();
     });
 
     // return "Web is starting...";
-    return content;
+    // return content;
 }
 
-function upload() {
+function upload(response) {
     console.log("Request handler 'upload' was called.");
-    return "Files are loading...";
+
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.write("Files are loading...");
+    response.end();
+    // return "Files are loading...";
 }
 
 exports.start = start;
